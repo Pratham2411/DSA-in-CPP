@@ -12,7 +12,7 @@ int main(){
  for(int i=0; i<=n-1;i++){
     cin>>arr[i];
 }
-int max = INT_MIN;
+int max = -1e9;
 for(int i=0; i<=n-1;i++){
     if(max<arr[i]) max = arr[i];
     
@@ -23,5 +23,6 @@ for(int i=0; i<=n-1;i++){
     
 }
 cout << Smax;
+
 
 }
