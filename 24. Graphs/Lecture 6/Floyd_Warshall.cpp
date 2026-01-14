@@ -1,0 +1,26 @@
+// Shortest path from each node to each other node
+// Detects negative cycles also
+// class Solution {
+//   public:
+//     void floydWarshall(vector<vector<int>> &dist) {
+//         int V=dist.size();
+//         for (int via = 0; via < V; via++) {
+//             for (int i = 0; i < V; i++) {
+//                 for (int j = 0; j < V; j++) {
+//                     if (dist[i][via] != 1e8 && dist[via][j] != 1e8) {
+//                         dist[i][j] = min(dist[i][j], dist[i][via] + dist[via][j]);
+//                     }
+//                 }
+//             }
+//         }
+
+//         // Check for negative weight cycle
+//         for (int i = 0; i < V; i++) {
+//             if (dist[i][i] < 0) {
+//                 dist = {{-1}};  // Negative cycle indicator
+//                 return;
+//             }
+//         }
+        
+//     }
+// };

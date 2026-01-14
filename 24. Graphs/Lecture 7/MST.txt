@@ -1,0 +1,72 @@
+A spanning tree is a tree in which we have N nodes(i.e. All the nodes present in the original graph) and N-1 edges and all nodes are reachable from each other.
+Find using prims and kruksal's algorithm
+ Prim's Algorithm :-  Greedy Approach
+class Solution {
+  public:
+    int spanningTree(int V, vector<vector<int>> adj[]) {
+        int sum=0;
+        vector<bool> vis(V,0);
+        priority_queue<vector<int>,vector<vector<int>>,greater<vector<int>>> pq;
+        pq.push({0,0,-1});   // weight,node,parent( only if path is asked )
+        while(!pq.empty()){
+            auto x=pq.top(); pq.pop();
+            int wt=x[0],node=x[1],parent=x[2];
+            if(vis[node]) continue;
+            vis[node]=1;
+            sum+=wt;
+            // can also return path here using parent
+            for(auto y:adj[node]) if(!vis[y[0]]) pq.push({y[1],y[0],node});
+        }
+        return sum;
+    }
+};
+
+Kruksal's Algorithm:- Using Disjoint Set data structure
+ // Sort all edges according to weight
+ // Then use disjoint set
+ class Solution {
+private:
+    static int findpar(int node, vector<int>& par) {
+        if (par[node] == node) return node;
+        return par[node] = findpar(par[node], par);
+    }
+
+    static void Union(int u, int v, vector<int>& par, vector<int>& size) {
+        int ulp_u = findpar(u, par);
+        int ulp_v = findpar(v, par);
+        if (ulp_u == ulp_v) return;
+
+        if (size[ulp_u] < size[ulp_v]) {
+            par[ulp_u] = ulp_v;
+            size[ulp_v] += size[ulp_u];
+        } else {
+            par[ulp_v] = ulp_u;
+            size[ulp_u] += size[ulp_v];
+        }
+    }
+
+    static bool cmp(const vector<int>& a, const vector<int>& b) {
+        return a[2] < b[2];
+    }
+
+public:
+    int kruskalsMST(int V, vector<vector<int>> &edges) {
+        vector<int> par(V);
+        vector<int> size(V, 1);
+        for (int i = 0; i < V; i++) par[i] = i;
+
+        sort(edges.begin(), edges.end(), cmp);
+
+        int sum = 0;
+        for (auto &x : edges) {
+            int u = x[0], v = x[1], wt = x[2];
+            if (findpar(u, par) != findpar(v, par)) {
+                sum += wt;
+                Union(u, v, par, size);
+            }
+        }
+        return sum;
+    }
+};
+
+
